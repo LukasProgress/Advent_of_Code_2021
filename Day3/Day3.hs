@@ -37,8 +37,8 @@ getOxygenRating xs bits runde  = getOxygenRating newBitList (wholeBitsUp (averag
 getCO2Rating :: [[Double]] -> [Int] -> Int -> [Int]
 getCO2Rating ([]:_) _ _ = []
 getCO2Rating [xs] _ _ = map round xs
-getCO2Rating xs bits runde  = getCO2Rating newBitList (invert (wholeBits (averageBits newBitList (fromIntegral (length newBitList))))) (runde + 1)
-    where newBitList = filter (\x -> round (x!!runde)  == bits!!runde) xs
+getCO2Rating xs bits runde  = getCO2Rating newBitList (wholeBitsUp (averageBits newBitList (fromIntegral (length newBitList)))) (runde + 1)
+    where newBitList = filter (\x -> round (x!!runde)  /= bits!!runde) xs
                                                 
 
 
@@ -53,7 +53,13 @@ main = do
     print result1
     -- gamma shows which rows have mostly ones or zeroes in the whole data
     let ox = getOxygenRating dataIn gamma 0
-    let co = getCO2Rating dataIn epsilon 0
+    let co = getCO2Rating dataIn gamma 0
+    let testData = [[0,0,1,0,0],[1,1,1,1,0],[1,0,1,1,0],[1,0,1,1,1],[1,0,1,0,1],[0,1,1,1,1],[0,0,1,1,1],[1,1,1,0,0],[1,0,0,0,0],[1,1,0,0,1],[0,0,0,1,0],[0,1,0,1,0]]
+    let testGamma = wholeBits (averageBits testData (fromInteger (toInteger (length testData)) :: Double))
+    let testEpsilon = invert testGamma
+    --print testGamma
+    --print $ getOxygenRating testData testGamma 0
+    --print $ getCO2Rating testData testGamma 0
     print ox
     print co
     print $ getNumber (reverse ox) * getNumber (reverse co)
