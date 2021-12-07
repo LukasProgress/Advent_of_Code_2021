@@ -54,12 +54,6 @@ main = do
     -- gamma shows which rows have mostly ones or zeroes in the whole data
     let ox = getOxygenRating dataIn gamma 0
     let co = getCO2Rating dataIn gamma 0
-    let testData = [[0,0,1,0,0],[1,1,1,1,0],[1,0,1,1,0],[1,0,1,1,1],[1,0,1,0,1],[0,1,1,1,1],[0,0,1,1,1],[1,1,1,0,0],[1,0,0,0,0],[1,1,0,0,1],[0,0,0,1,0],[0,1,0,1,0]]
-    let testGamma = wholeBits (averageBits testData (fromInteger (toInteger (length testData)) :: Double))
-    let testEpsilon = invert testGamma
-    --print testGamma
-    --print $ getOxygenRating testData testGamma 0
-    --print $ getCO2Rating testData testGamma 0
     print ox
     print co
     print $ getNumber (reverse ox) * getNumber (reverse co)
